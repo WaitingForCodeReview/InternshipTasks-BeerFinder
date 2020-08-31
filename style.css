@@ -3,9 +3,14 @@
     margin: 0;
     padding: 0;
 }
-
+body {
+    background: url("images/bg.jpg") no-repeat fixed center;
+    background-size: cover;
+}
 /* Header styles */
 header {
+    position: fixed;
+    top: 0;
     display: flex;
     width: 100%;
     height: 8em;
@@ -20,10 +25,10 @@ header {
 }
 
 .header-title h1 {
-    margin-left: 38rem;
+    margin-left: 43.5%;
 }
 .header-title p{
-    margin-left: 38rem;
+    margin-left: 43.5%;
 }
 
 .header-aside {
@@ -33,35 +38,45 @@ header {
 }
 .fas {
     cursor: pointer;
+    margin-left: 10%;
 }
-
-.header-aside input {
+.input-div {
+    position: fixed;
+    padding: 10px;
+    width: 320px;
+    height: 65px;
+    background-color: rgba(173, 216, 230, .85);
+    top: 12%;
+    left: 43%;
+    border-radius: 15px;
+}
+.input-div input {
     padding: 10px;
     font-size: 23px;
     font-weight: bolder;
     border: 7px solid rgba(255, 255, 255, .5);
-    background: rgba(255, 255, 255, .5);
+    background: rgba(173, 216, 230, .6);
     outline: none;
     color: #333;
-    width: 40%;
+    width: 70%;
 }
 
 #recentSearches {
-    position: absolute;
-    left: 76.1%;
-    top: 8.3%;
-    width: 13.3%;
-    background-color: Aquamarine;
-    color: black;
-    border-radius: 15px;
+    position: fixed;
+    top: 19%;
+    left: 43%;
+    width: 10%;
     text-align: center;
 }
 #recentSearches p {
     margin: 7px;
+    font-weight: bold;
     border: 2px solid black;
     border-radius: 15px;
     font-size: 25px;
     text-align: center;
+    cursor: pointer;
+    background: rgba(173, 216, 230, .75);
 }
 
 a.buttonFavourites {
@@ -96,5 +111,33 @@ a.buttonFavourites:hover {
 }
 a.buttonFavourites:active {
     top: 1px;
+}
+/**/
+
+/*Styles for beer items div*/
+.beer-items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15em;
+}
+.beer-items .itemCard {
+    width: 500px;
+    height: 750px;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(173, 216, 230, .85);
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+}
+.beer-items .itemCard p {
+    padding-top: 10px;
+    font-family: 'Lobster', cursive;
+    font-weight: bold;
+    font-size: 20px;
 }
 /**/
