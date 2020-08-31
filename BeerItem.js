@@ -1,14 +1,11 @@
-import {foundBeers} from "./Variables.js";
-
 export class BeerItem {
     name
     imageUrl
     description
 
-    constructor(BeerData) {
-        Object.assign(this, { ...BeerData });
+    constructor(beerData) {
+        Object.assign(this, { ...beerData });
 
-        foundBeers.push(this);
     }
 
     getInnerHtml() {

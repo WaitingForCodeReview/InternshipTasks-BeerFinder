@@ -124,7 +124,6 @@ a.buttonFavourites:active {
 }
 .beer-items .itemCard {
     width: 500px;
-    height: 750px;
     margin-top: 3rem;
     display: flex;
     flex-direction: column;
@@ -138,6 +137,23 @@ a.buttonFavourites:active {
     padding-top: 10px;
     font-family: 'Lobster', cursive;
     font-weight: bold;
+    font-size: 20px;
+}
+/**/
+
+/*Styles for modal*/
+#modalError {
+    padding: 20px;
+    display: none;
+    text-align: center;
+    border-radius: 10px;
+    position: absolute;
+    top: 1%;
+    left: 5%;
+    background-color: rgba(255, 0, 0, 0.5);
+    color: black;
+}
+#modalError p {
     font-size: 20px;
 }
 /**/

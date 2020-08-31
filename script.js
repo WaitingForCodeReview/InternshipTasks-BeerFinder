@@ -1,7 +1,6 @@
 import {searchInput, recentSearchesDiv, searchButton} from "./Variables.js";
 import {isValidEnter, markAsInvalid, getItemsFetch} from "./Functions.js";
 
-
 searchInput.addEventListener('keydown', function inputEnterPressed(event) {
     const searchValue = searchInput.value;
     const code = event.code;
@@ -24,7 +23,7 @@ searchButton.addEventListener('click', function searchClicked() {
 })
 
 recentSearchesDiv.addEventListener('click', function pClicked(event) {
-    const target= event.target;
+    const target = event.target;
 
     if(target.tagName === 'P') {
         searchInput.value = target.innerText;

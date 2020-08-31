@@ -1,5 +1,5 @@
 import {validEnter} from "./Variables.js";
-import {foundBeers, NO_ITEM_FOUND, recentSearches, searchInput} from "./Variables.js";
+import {recentSearches} from "./Variables.js";
 import {BeerItem} from "./BeerItem.js";
 
 export function isValidEnter(enter) {
@@ -7,23 +7,25 @@ export function isValidEnter(enter) {
 }
 
 export function markAsInvalid(elem) {
-    const elementDefaultColor = elem.style.color;
-    const elementDefaultBackgroundColor = elem.style.backgroundColor;
+    const elemTextColor = elem.style.color;
 
+    elem.style.outline = '5px solid red';
     elem.style.color = 'red';
-    elem.style.backgroundColor = ' rgba(255, 0, 0, 0.4)';
     setTimeout(() => {
-        elem.style.color = elementDefaultColor;
-        elem.style.backgroundColor = elementDefaultBackgroundColor;
-    }, 2000);
+        elem.style.outline = 'none';
+        elem.style.color = elemTextColor;
+    }, 1000);
 }
 
-export function addInputToRecentSearches(input) {
-    const recentSearchDiv = document.getElementById("recentSearches");
-    const p = document.createElement('p');
+export function renderRecentSearches() {
+    const recentSearchDiv = document.getElementById('recentSearches');
+    recentSearchDiv.innerHTML = "";
 
-    p.innerText = input;
-    recentSearchDiv.append(p);
+    Array.from(recentSearches.values()).forEach( item => {
+        const pElem = document.createElement('p');
+        pElem.innerText = item;
+        recentSearchDiv.append(pElem);
+    })
 }
 
 export function hideElement(id) {
@@ -35,9 +37,7 @@ export function showElement(id) {
 }
 
 export function getUrl(beerName) {
-    let url = `https://api.punkapi.com/v2/beers?page=1&per_page=5&beer_name=${beerName}`;
-
-    return url;
+    return `https://api.punkapi.com/v2/beers?page=1&per_page=5&beer_name=${beerName}`;
 }
 
 export function isEmpty(arr) {
@@ -49,36 +49,46 @@ export function renderElements(url, searchValue) {
         .then(response => response.json())
         .then(beers => {
             if (isEmpty(beers)) {
-                alert(NO_ITEM_FOUND);
+                showModalUserContent('ERROR', 'There were no properties found for the given location.')
             } else {
-                if (recentSearches.indexOf(searchValue) === -1) {
-                    addInputToRecentSearches(searchValue);
-                    recentSearches.push(searchValue);
-                }
-                refactorItems(beers);
+                recentSearches.add(searchValue);
+                renderRecentSearches();
+                renderItems(beers);
             }
         });
 }
 
-export function refactorItems(beers) {
+export function renderItems(beers) {
     const beerItemsElem = document.getElementById('beerItems');
 
-    foundBeers.length = 0;
+    beerItemsElem.innerHTML = "";
+    Object.foundBeers['beerArray'] = [];
     beers.forEach(item => {
         const beerItem = new BeerItem({
             name : item.name,
             imageUrl : item.image_url,
             description : item.description
         });
-    })
-    beerItemsElem.innerHTML = "";
-    foundBeers.forEach( item => {
-        beerItemsElem.innerHTML += item.getInnerHtml();
+        beerItemsElem.innerHTML += beerItem.getInnerHtml();
+        Object.foundBeers['beerArray'].push(beerItem);
     })
 }
 
 export function getItemsFetch(searchValue) {
-    let url = getUrl(searchValue);
+    const url = getUrl(searchValue);
 
     renderElements(url, searchValue);
+}
+
+export function showModalUserContent(errorType, errorText) {
+    const modalDiv = document.getElementById('modalError');
+
+    modalDiv.innerHTML = `
+        <h1>${errorType}</h1>
+        <p>${errorText}</p>
+    `
+    modalDiv.style.display = 'block';
+    setTimeout(() => {
+        modalDiv.style.display = 'none';
+    }, 2000);
 }
