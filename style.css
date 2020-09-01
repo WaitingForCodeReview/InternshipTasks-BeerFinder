@@ -14,7 +14,7 @@ header {
     display: flex;
     width: 100%;
     height: 8em;
-    background-color: lightblue;
+    background-color: rgba(173, 216, 230, .90);
 }
 .header-title {
     width: 70%;
@@ -41,13 +41,12 @@ header {
     margin-left: 10%;
 }
 .input-div {
-    position: fixed;
+    margin-top: 6.5%;
+    margin-left: 42%;
     padding: 10px;
     width: 320px;
     height: 65px;
     background-color: rgba(173, 216, 230, .85);
-    top: 12%;
-    left: 43%;
     border-radius: 15px;
 }
 .input-div input {
@@ -62,9 +61,8 @@ header {
 }
 
 #recentSearches {
-    position: fixed;
-    top: 19%;
-    left: 43%;
+    margin-top: 0.5%;
+    margin-left: 42%;
     width: 10%;
     text-align: center;
 }
@@ -120,7 +118,7 @@ a.buttonFavourites:active {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 15em;
+    margin-top: 0.3em;
 }
 .beer-items .itemCard {
     width: 500px;
@@ -142,18 +140,73 @@ a.buttonFavourites:active {
 /**/
 
 /*Styles for modal*/
+#shadowModal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 1000;
+}
 #modalError {
     padding: 20px;
     display: none;
     text-align: center;
     border-radius: 10px;
-    position: absolute;
-    top: 1%;
-    left: 5%;
-    background-color: rgba(255, 0, 0, 0.5);
+    position: fixed;
+    top: 40%;
+    left: 40%;
     color: black;
+    z-index: 9999999;
 }
 #modalError p {
     font-size: 20px;
+    font-weight: bold;
+}
+/**/
+
+/*Styles for load more button*/
+#loadMoreDiv {
+    display: none;
+    text-align: center;
+    margin-top: 2.6rem;
+    margin-bottom: 2.6rem;
+}
+#loadMoreDiv a {
+    cursor: pointer;
+    font-weight: bold;
+    color: blue;
+    font-size: 20px;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    transition: 0.2s;
+}
+#loadMoreDiv a:hover { background: rgb(53, 167, 110); }
+#loadMoreDiv a:active {
+    background: rgb(33,147,90);
+    box-shadow: 0 3px rgb(33,147,90) inset;
+}
+/**/
+
+/*Styles for up-arrow*/
+#arrowUp {
+    display: none;
+    cursor: pointer;
+    position: fixed;
+    top: 89%;
+    left: 93%;
+    padding: 5px;
+    border: 5px solid green;
+    border-radius: 50%;
+}
+
+#arrowUp img {
+    width: 50px;
+    height: 46px;
 }
 /**/

@@ -1,6 +1,6 @@
-import {validEnter} from "./Variables.js";
-import {recentSearches} from "./Variables.js";
+import {validEnter, loadMoreDiv, recentSearches, beerItemsElem} from "./Variables.js";
 import {BeerItem} from "./BeerItem.js";
+
 
 export function isValidEnter(enter) {
     return enter.match(validEnter);
@@ -28,16 +28,16 @@ export function renderRecentSearches() {
     })
 }
 
-export function hideElement(id) {
-    document.getElementById(id).style.display = 'none';
+export function hideElement(elem) {
+    elem.style.display = 'none';
 }
 
-export function showElement(id) {
-    document.getElementById(id).style.display = 'block';
+export function showElement(elem) {
+    elem.style.display = 'block';
 }
 
-export function getUrl(beerName) {
-    return `https://api.punkapi.com/v2/beers?page=1&per_page=5&beer_name=${beerName}`;
+export function getUrl(beerName, pageCounter) {
+    return `https://api.punkapi.com/v2/beers?page=${pageCounter}&per_page=5&beer_name=${beerName}`;
 }
 
 export function isEmpty(arr) {
@@ -48,21 +48,22 @@ export function renderElements(url, searchValue) {
     fetch(url)
         .then(response => response.json())
         .then(beers => {
-            if (isEmpty(beers)) {
-                showModalUserContent('ERROR', 'There were no properties found for the given location.')
+            if (isEmpty(beers) && isEmpty(Object.foundBeers["beerArray"])) {
+                // error modal
+                showModalUserContent('ERROR', 'There were no properties found for the given location.', 'rgba(255, 0, 0, 0.8)');
+            } else if(isEmpty(beers) && !isEmpty(Object.foundBeers["beerArray"])) {
+                // warning modal
+                showModalUserContent('WARNING', 'There are no more beers in this search.', 'rgba(255, 215, 0, 0.9)');
             } else {
                 recentSearches.add(searchValue);
                 renderRecentSearches();
                 renderItems(beers);
+                showElement(loadMoreDiv);
             }
         });
 }
 
 export function renderItems(beers) {
-    const beerItemsElem = document.getElementById('beerItems');
-
-    beerItemsElem.innerHTML = "";
-    Object.foundBeers['beerArray'] = [];
     beers.forEach(item => {
         const beerItem = new BeerItem({
             name : item.name,
@@ -74,21 +75,40 @@ export function renderItems(beers) {
     })
 }
 
-export function getItemsFetch(searchValue) {
-    const url = getUrl(searchValue);
+export function clearItemsArray() {
+    Object.foundBeers['beerArray'] = [];
+}
+
+export function clearItemsHTML() {
+    beerItemsElem.innerHTML = "";
+}
+
+export function getItemsFetch(searchValue, pageCounter) {
+    const url = getUrl(searchValue, pageCounter);
 
     renderElements(url, searchValue);
 }
 
-export function showModalUserContent(errorType, errorText) {
+export function showModalUserContent(errorType, errorText, backgroundColor) {
     const modalDiv = document.getElementById('modalError');
+    const shadowModal = document.getElementById('shadowModal');
 
+    modalDiv.style.backgroundColor = backgroundColor
     modalDiv.innerHTML = `
         <h1>${errorType}</h1>
         <p>${errorText}</p>
     `
+    shadowModal.style.display = 'block';
     modalDiv.style.display = 'block';
     setTimeout(() => {
+        shadowModal.style.display = 'none';
         modalDiv.style.display = 'none';
     }, 2000);
+}
+
+export function initializeBeerFull(searchValue, pageCounter) {
+    hideElement(loadMoreDiv);
+    clearItemsArray();
+    clearItemsHTML();
+    getItemsFetch(searchValue, pageCounter);
 }
