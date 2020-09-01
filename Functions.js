@@ -68,7 +68,8 @@ export function renderItems(beers) {
         const beerItem = new BeerItem({
             name : item.name,
             imageUrl : item.image_url,
-            description : item.description
+            description : item.description,
+            buttonAddRemoveId : `buttonAddRemoveId${BeerItem.getUniqueId()}`,
         });
         beerItemsElem.innerHTML += beerItem.getInnerHtml();
         Object.foundBeers['beerArray'].push(beerItem);

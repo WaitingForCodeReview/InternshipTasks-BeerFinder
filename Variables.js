@@ -6,6 +6,8 @@ export const loadMoreButton = document.getElementById("loadMoreButton");
 export const loadMoreDiv = document.getElementById("loadMoreDiv");
 export const beerItemsElem = document.getElementById('beerItems');
 export const arrowUp = document.getElementById("arrowUp");
+export const favouriteCounterDiv = document.getElementById("favouritesCounter");
+export const favourites = [];
 export const recentSearches = new Set();
 Object.foundBeers = {
     'beerArray' : [],
