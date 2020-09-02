@@ -14,7 +14,11 @@ export const WARNING_TITLE = "WARNING";
 export const WARNING_TEXT = "There are no more beers in this search.";
 export const WARNING_BACKGROUND = "rgba(255, 215, 0, 0.9)";
 export const BUTTON_ITEM_STYLES = "rgb(255,212,3) linear-gradient(rgb(255,212,3), rgb(248,157,23))";
+export const favouritesButton = document.getElementById("btnFavourites");
 export const recentSearches = new Set();
 Object.foundBeers = {
     'beerArray' : [],
+}
+Object.favourites = {
+    'favourites' : [],
 }

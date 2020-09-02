@@ -1,5 +1,3 @@
-import {favourites} from "./script.js";
-
 export class BeerItem {
     name
     imageUrl
@@ -8,7 +6,6 @@ export class BeerItem {
 
     constructor(beerData) {
         Object.assign(this, { ...beerData });
-
 
         this.checkItemIsInFavourites() ? this.isFavourite = true : this.isFavourite = false;
     }
@@ -39,6 +36,6 @@ export class BeerItem {
     }
 
     checkItemIsInFavourites() {
-        return favourites.some( item => item.name === this.name);
+        return  Object.favourites["favourites"].some( item => item.name === this.name);
     }
 }

@@ -1,6 +1,6 @@
 import {validEnter, loadMoreDiv, recentSearches, beerItemsElem} from "./Variables.js";
 import {BeerItem} from "./BeerItem.js";
-import {ERROR_BACKGROUND, ERROR_TEXT, ERROR_TITLE, WARNING_BACKGROUND, WARNING_TEXT, WARNING_TITLE} from "./Variables.js";
+import {ERROR_BACKGROUND, ERROR_TEXT, ERROR_TITLE, WARNING_BACKGROUND, WARNING_TEXT, WARNING_TITLE, BUTTON_ITEM_STYLES, favouriteCounterDiv} from "./Variables.js";
 
 
 export function isValidEnter(enter) {
@@ -52,7 +52,7 @@ export function renderElements(url, searchValue) {
             if (isEmpty(beers) && isEmpty(Object.foundBeers["beerArray"])) {
                 // error modal
                 showModalUserContent({errorType : ERROR_TITLE, errorText : ERROR_TEXT, backgroundColor : ERROR_BACKGROUND});
-            } else if(isEmpty(beers) && !isEmpty(Object.foundBeers["beerArray"])) {
+            } else if (isEmpty(beers) && !isEmpty(Object.foundBeers["beerArray"])) {
                 // warning modal
                 showModalUserContent({errorType : WARNING_TITLE, errorText : WARNING_TEXT, backgroundColor : WARNING_BACKGROUND});
             } else {
@@ -113,4 +113,48 @@ export function initializeBeerFull(searchValue, pageCounter) {
     clearItemsArray();
     clearItemsHTML();
     getItemsFetch(searchValue, pageCounter);
+}
+
+export function showModalFavourites() {
+    const shadowModal = document.getElementById('shadowModal');
+
+    showElement(shadowModal);
+    shadowModal.innerHTML = `
+        <div id="crossrow"><img src="images/crossrow.svg" alt=""></div>
+        <div id="modalContent">
+        </div>
+    `
+
+    const modalContent = document.getElementById('modalContent');
+
+    Object.favourites["favourites"].forEach( item => modalContent.innerHTML+= item.getInnerHtml());
+    modalContent.addEventListener('click', function removeButtonClicked(event) {
+        const target = event.target;
+
+        if (target.classList.contains('removeBtn')) {
+            const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
+            const childItemNode = target.parentNode.parentNode;
+
+            removeFavourites(itemClicked, target);
+            modalContent.removeChild(childItemNode);
+
+            const btnItem = document.getElementById(itemClicked.buttonAddRemoveId);
+
+            changeStyleRemoveFavourites(btnItem)
+        }
+    })
+    document.getElementById('crossrow').addEventListener('click', function crossBowClicked() {
+        hideElement(shadowModal);
+    })
+}
+
+export function removeFavourites(itemClicked, target) {
+    Object.favourites["favourites"] =  Object.favourites["favourites"].filter(item => item.buttonAddRemoveId !== target.id);
+    itemClicked.changeFavouriteStatus();
+    favouriteCounterDiv.innerHTML = `<p>${ Object.favourites["favourites"].length}</p>`
+}
+
+export function changeStyleRemoveFavourites(btnItem) {
+    btnItem.style.background = BUTTON_ITEM_STYLES;
+    btnItem.innerText = 'Add';
 }

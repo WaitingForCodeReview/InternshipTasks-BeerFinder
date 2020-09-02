@@ -1,8 +1,7 @@
-import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, BUTTON_ITEM_STYLES} from "./Variables.js";
-import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull} from "./Functions.js";
+import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, favouritesButton, BUTTON_ITEM_STYLES} from "./Variables.js";
+import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites} from "./Functions.js";
 
 let pageCounter = 1;
-export let favourites = [];
 
 searchInput.addEventListener('keydown', function inputEnterPressed(event) {
     const searchValue = searchInput.value;
@@ -30,7 +29,7 @@ searchButton.addEventListener('click', function searchClicked() {
 recentSearchesDiv.addEventListener('click', function pClicked(event) {
     const target = event.target;
 
-    if(target.tagName === 'P') {
+    if (target.tagName === 'P') {
         searchInput.value = target.innerText;
         pageCounter = 1;
         initializeBeerFull(searchInput.value, pageCounter);
@@ -55,23 +54,23 @@ window.addEventListener('scroll', function scrolled() {
 beerItemsElem.addEventListener('click', function addButtonClicked(event) {
     const target = event.target;
 
-    if(target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
+    if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
         const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
-        if(!itemClicked.isFavourite) {
+        if (!itemClicked.isFavourite) {
             itemClicked.changeFavouriteStatus();
 
-            favourites.push(itemClicked);
-            favouriteCounterDiv.innerHTML = `<p>${favourites.length}</p>`
+            Object.favourites["favourites"].push(itemClicked);
+            favouriteCounterDiv.innerHTML = `<p>${ Object.favourites["favourites"].length}</p>`
 
             target.style.background = 'red';
             target.innerText = 'Remove';
         } else {
-            favourites = favourites.filter(item => item.buttonAddRemoveId !== target.id);
-            itemClicked.changeFavouriteStatus();
-            favouriteCounterDiv.innerHTML = `<p>${favourites.length}</p>`
-
-            target.style.background = BUTTON_ITEM_STYLES;
-            target.innerText = 'Add';
+            removeFavourites(itemClicked, target);
+            changeStyleRemoveFavourites(target);
         }
     }
+})
+
+favouritesButton.addEventListener('click', function favouritesClicked() {
+    showModalFavourites();
 })
