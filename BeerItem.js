@@ -3,6 +3,7 @@ export class BeerItem {
     imageUrl
     description
     buttonAddRemoveId
+    titleId
 
     constructor(beerData) {
         Object.assign(this, { ...beerData });
@@ -20,7 +21,7 @@ export class BeerItem {
                         <img src=${this.imageUrl}>
                     </div>
                     <div>
-                        <p>${this.name}</p>
+                        <h2 id="${this.titleId}">${this.name}</h2>
                         <p>${this.description}</p>
                     </div>
             </div>

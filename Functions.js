@@ -1,6 +1,7 @@
 import {validEnter, loadMoreDiv, recentSearches, beerItemsElem} from "./Variables.js";
 import {BeerItem} from "./BeerItem.js";
 import {ERROR_BACKGROUND, ERROR_TEXT, ERROR_TITLE, WARNING_BACKGROUND, WARNING_TEXT, WARNING_TITLE, BUTTON_ITEM_STYLES, favouriteCounterDiv} from "./Variables.js";
+import {BUTTON_ADD_TEXT, BUTTON_REMOVE_BG, BUTTON_REMOVE_TEXT} from "./Variables.js";
 
 
 export function isValidEnter(enter) {
@@ -71,6 +72,7 @@ export function renderItems(beers) {
             imageUrl : item.image_url,
             description : item.description,
             buttonAddRemoveId : `buttonAddRemoveId${BeerItem.convertId(item.name)}`,
+            titleId : `titleId${BeerItem.convertId(item.name)}`,
         });
         beerItemsElem.innerHTML += beerItem.getInnerHtml();
         Object.foundBeers['beerArray'].push(beerItem);
@@ -156,5 +158,65 @@ export function removeFavourites(itemClicked, target) {
 
 export function changeStyleRemoveFavourites(btnItem) {
     btnItem.style.background = BUTTON_ITEM_STYLES;
-    btnItem.innerText = 'Add';
+    btnItem.innerText = BUTTON_ADD_TEXT;
+}
+
+export function showModalItem(target) {
+    const shadowModal = document.getElementById('shadowModal');
+    const itemClicked = Object.foundBeers["beerArray"].find( item => item.titleId === target.id);
+
+    showElement(shadowModal);
+    shadowModal.innerHTML = `
+        <div id="crossrow"><img src="images/crossrow.svg" alt=""></div>
+        <div id="modalContent">
+        </div>
+    `
+
+    const modalContent = document.getElementById('modalContent');
+
+    modalContent.innerHTML = itemClicked.getInnerHtml();
+
+    modalContent.addEventListener('click', function btnAddRemoveClicked(event) {
+        const target = event.target;
+        if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
+            if (!itemClicked.isFavourite) {
+                changeRemove(target);
+
+                itemClicked.changeFavouriteStatus();
+                Object.favourites["favourites"].push(itemClicked);
+                favouriteCounterDiv.innerHTML = `<p>${Object.favourites["favourites"].length}</p>`
+
+                removeHtml(target, modalContent);
+                changeRemove(target);
+                addHtml(target, modalContent);
+            } else {
+                removeFavourites(itemClicked, target);
+                changeStyleRemoveFavourites(target);
+                removeHtml(target, modalContent);
+                changeStyleRemoveFavourites(target);
+                addHtml(target, modalContent);
+            }
+        }
+    })
+
+    document.getElementById('crossrow').addEventListener('click', function crossBowClicked() {
+        hideElement(shadowModal);
+    })
+}
+
+export function removeHtml(toRemove, modalContent) {
+    const childItemNode = toRemove.parentNode.parentNode;
+
+    modalContent.removeChild(childItemNode);
+}
+
+export function changeRemove(target) {
+    document.getElementById(target.id).style.background = BUTTON_REMOVE_BG;
+    document.getElementById(target.id).innerText = BUTTON_REMOVE_TEXT;
+}
+
+export function addHtml(target, modalContent) {
+    const childItemNode = target.parentNode.parentNode;
+
+    modalContent.append(childItemNode);
 }

@@ -151,11 +151,19 @@ a.buttonFavourites:active {
     text-align: center;
     padding: 10px;
 }
+.beer-items .itemCard {
+    cursor: pointer;
+}
 .beer-items .itemCard p, #modalContent .itemCard p {
     padding-top: 10px;
     font-family: 'Lobster', cursive;
     font-weight: bold;
     font-size: 20px;
+}
+.beer-items .itemCard h2, #modalContent .itemCard h2 {
+    padding-top: 10px;
+    font-family: 'Lobster', cursive;
+    font-weight: bold;
 }
 .beer-items .addBtn, #modalContent .addBtn{
     cursor: pointer;

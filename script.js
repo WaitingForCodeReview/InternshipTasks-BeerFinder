@@ -1,5 +1,6 @@
 import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, favouritesButton, BUTTON_ITEM_STYLES} from "./Variables.js";
-import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites} from "./Functions.js";
+import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites, showModalItem} from "./Functions.js";
+import {changeRemove} from "./Functions.js";
 
 let pageCounter = 1;
 
@@ -54,22 +55,23 @@ window.addEventListener('scroll', function scrolled() {
 beerItemsElem.addEventListener('click', function addButtonClicked(event) {
     const target = event.target;
 
-    if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
+    if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) { // if button clicked
         const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
         if (!itemClicked.isFavourite) {
             itemClicked.changeFavouriteStatus();
-
             Object.favourites["favourites"].push(itemClicked);
             favouriteCounterDiv.innerHTML = `<p>${ Object.favourites["favourites"].length}</p>`
 
-            target.style.background = 'red';
-            target.innerText = 'Remove';
+            changeRemove(target);
         } else {
             removeFavourites(itemClicked, target);
             changeStyleRemoveFavourites(target);
         }
+    } else if (target.nodeName === 'H2') {  // if item-title clicked
+        showModalItem(target);
     }
 })
+
 
 favouritesButton.addEventListener('click', function favouritesClicked() {
     showModalFavourites();
