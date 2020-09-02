@@ -1,7 +1,9 @@
-import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favourites, favouriteCounterDiv} from "./Variables.js";
+import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, BUTTON_ITEM_STYLES} from "./Variables.js";
 import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull} from "./Functions.js";
 
 let pageCounter = 1;
+export let favourites = [];
+
 searchInput.addEventListener('keydown', function inputEnterPressed(event) {
     const searchValue = searchInput.value;
     const code = event.code;
@@ -53,23 +55,23 @@ window.addEventListener('scroll', function scrolled() {
 beerItemsElem.addEventListener('click', function addButtonClicked(event) {
     const target = event.target;
 
-    if(target.classList.contains('addRemoveBtn')) {
+    if(target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
         const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
         if(!itemClicked.isFavourite) {
-            itemClicked.isFavourite = true;
+            itemClicked.changeFavouriteStatus();
+
             favourites.push(itemClicked);
             favouriteCounterDiv.innerHTML = `<p>${favourites.length}</p>`
+
             target.style.background = 'red';
             target.innerText = 'Remove';
         } else {
-            const removeElemIndex = favourites.findIndex(item => item.buttonAddRemoveId === target.id);
-
-            itemClicked.isFavourite = false;
-            favourites.splice(removeElemIndex, 1);
+            favourites = favourites.filter(item => item.buttonAddRemoveId !== target.id);
+            itemClicked.changeFavouriteStatus();
             favouriteCounterDiv.innerHTML = `<p>${favourites.length}</p>`
-            target.style.background = 'rgb(255,212,3) linear-gradient(rgb(255,212,3), rgb(248,157,23))';
+
+            target.style.background = BUTTON_ITEM_STYLES;
             target.innerText = 'Add';
-            console.log(favourites)
         }
     }
 })

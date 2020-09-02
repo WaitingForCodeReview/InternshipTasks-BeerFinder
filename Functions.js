@@ -1,5 +1,6 @@
 import {validEnter, loadMoreDiv, recentSearches, beerItemsElem} from "./Variables.js";
 import {BeerItem} from "./BeerItem.js";
+import {ERROR_BACKGROUND, ERROR_TEXT, ERROR_TITLE, WARNING_BACKGROUND, WARNING_TEXT, WARNING_TITLE} from "./Variables.js";
 
 
 export function isValidEnter(enter) {
@@ -50,10 +51,10 @@ export function renderElements(url, searchValue) {
         .then(beers => {
             if (isEmpty(beers) && isEmpty(Object.foundBeers["beerArray"])) {
                 // error modal
-                showModalUserContent('ERROR', 'There were no properties found for the given location.', 'rgba(255, 0, 0, 0.8)');
+                showModalUserContent({errorType : ERROR_TITLE, errorText : ERROR_TEXT, backgroundColor : ERROR_BACKGROUND});
             } else if(isEmpty(beers) && !isEmpty(Object.foundBeers["beerArray"])) {
                 // warning modal
-                showModalUserContent('WARNING', 'There are no more beers in this search.', 'rgba(255, 215, 0, 0.9)');
+                showModalUserContent({errorType : WARNING_TITLE, errorText : WARNING_TEXT, backgroundColor : WARNING_BACKGROUND});
             } else {
                 recentSearches.add(searchValue);
                 renderRecentSearches();
@@ -69,7 +70,7 @@ export function renderItems(beers) {
             name : item.name,
             imageUrl : item.image_url,
             description : item.description,
-            buttonAddRemoveId : `buttonAddRemoveId${BeerItem.getUniqueId()}`,
+            buttonAddRemoveId : `buttonAddRemoveId${BeerItem.convertId(item.name)}`,
         });
         beerItemsElem.innerHTML += beerItem.getInnerHtml();
         Object.foundBeers['beerArray'].push(beerItem);
@@ -90,7 +91,7 @@ export function getItemsFetch(searchValue, pageCounter) {
     renderElements(url, searchValue);
 }
 
-export function showModalUserContent(errorType, errorText, backgroundColor) {
+export function showModalUserContent({errorType, errorText, backgroundColor}) {
     const modalDiv = document.getElementById('modalError');
     const shadowModal = document.getElementById('shadowModal');
 
@@ -99,11 +100,11 @@ export function showModalUserContent(errorType, errorText, backgroundColor) {
         <h1>${errorType}</h1>
         <p>${errorText}</p>
     `
-    shadowModal.style.display = 'block';
-    modalDiv.style.display = 'block';
+    showElement(shadowModal);
+    showElement(modalDiv);
     setTimeout(() => {
-        shadowModal.style.display = 'none';
-        modalDiv.style.display = 'none';
+        hideElement(shadowModal);
+        hideElement(modalDiv);
     }, 2000);
 }
 

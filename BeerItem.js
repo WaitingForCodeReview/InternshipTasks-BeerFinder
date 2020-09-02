@@ -1,3 +1,5 @@
+import {favourites} from "./script.js";
+
 export class BeerItem {
     name
     imageUrl
@@ -7,17 +9,18 @@ export class BeerItem {
     constructor(beerData) {
         Object.assign(this, { ...beerData });
 
-        this.isFavourite = false;
+
+        this.checkItemIsInFavourites() ? this.isFavourite = true : this.isFavourite = false;
     }
 
     getInnerHtml() {
         return `
             <div class="itemCard">
-                    <div style="position: relative; top: 1%; left: 40%;">
-                        <a id="${this.buttonAddRemoveId}" class="addRemoveBtn">Add</a>
+                    <div id="itemBtnDiv">
+                        ${this.isFavourite ? `<a id="${this.buttonAddRemoveId}" class="removeBtn">Remove</a>` : `<a id="${this.buttonAddRemoveId}" class="addBtn">Add</a>`}
                     </div>
                     <div>
-                        <img src=${this.imageUrl} style="width: 250px; height: 550px">
+                        <img src=${this.imageUrl}>
                     </div>
                     <div>
                         <p>${this.name}</p>
@@ -27,7 +30,15 @@ export class BeerItem {
         `
     }
 
-    static getUniqueId() {
-        return Math.random();
+    static convertId(stringId) {
+       return stringId.split(" ").join('');
+    }
+
+    changeFavouriteStatus() {
+        this.isFavourite = !this.isFavourite;
+    }
+
+    checkItemIsInFavourites() {
+        return favourites.some( item => item.name === this.name);
     }
 }
