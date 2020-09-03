@@ -28,6 +28,7 @@ export function initializeLocalStFavourites(key) {
                     buttonAddRemoveId: `buttonAddRemoveId${BeerItem.convertId(item.name)}`,
                     titleId: `titleId${BeerItem.convertId(item.name)}`,
                 });
+                addItemToFoundBeers(beerItem);
                 addItemToFavourites(beerItem);
             });
         })
@@ -270,4 +271,8 @@ export function addItemToFavourites(itemClicked) {
     itemClicked.changeFavouriteStatus();
     Object.favourites["favourites"].push(itemClicked);
     favouriteCounterDiv.innerHTML = `<p>${Object.favourites["favourites"].length}</p>`
+}
+
+export function addItemToFoundBeers(item) {
+    Object.foundBeers['beerArray'].push(item);
 }
