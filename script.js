@@ -1,8 +1,10 @@
-import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, favouritesButton} from "./Variables.js";
+import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouritesButton} from "./Variables.js";
 import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites, showModalItem} from "./Functions.js";
-import {changeRemove, addItemToFavourites} from "./Functions.js";
+import {changeRemove, addItemToFavourites, initializeDefaultLocalStorage} from "./Functions.js";
 
 let pageCounter = 1;
+
+initializeDefaultLocalStorage();
 
 searchInput.addEventListener('keydown', function inputEnterPressed(event) {
     const searchValue = searchInput.value;

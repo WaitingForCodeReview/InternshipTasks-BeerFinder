@@ -3,6 +3,39 @@ import {BeerItem} from "./BeerItem.js";
 import {ERROR_BACKGROUND, ERROR_TEXT, ERROR_TITLE, WARNING_BACKGROUND, WARNING_TEXT, WARNING_TITLE, BUTTON_ITEM_STYLES, favouriteCounterDiv} from "./Variables.js";
 import {BUTTON_ADD_TEXT, BUTTON_REMOVE_BG, BUTTON_REMOVE_TEXT, MODAL_INNER_HTML} from "./Variables.js";
 
+export function initializeDefaultLocalStorage() {
+    for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+            if (key.startsWith('recentSearch')) {
+                initializeLocalStRecentSearches(key);
+            } else {
+                initializeLocalStFavourites(key);
+            }
+        }
+    }
+    renderRecentSearches();
+}
+
+export function initializeLocalStFavourites(key) {
+    fetch(`https://api.punkapi.com/v2/beers?beer_name=${key}`)
+        .then(response => response.json())
+        .then(beers => {
+            beers.forEach(item => {
+                const beerItem = new BeerItem({
+                    name: item.name,
+                    imageUrl: item.image_url,
+                    description: item.description,
+                    buttonAddRemoveId: `buttonAddRemoveId${BeerItem.convertId(item.name)}`,
+                    titleId: `titleId${BeerItem.convertId(item.name)}`,
+                });
+                addItemToFavourites(beerItem);
+            });
+        })
+}
+
+export function initializeLocalStRecentSearches(key) {
+    recentSearches.add(localStorage[key]);
+}
 
 export function isValidEnter(enter) {
     return enter.match(validEnter);
@@ -58,6 +91,7 @@ export function renderElements(url, searchValue) {
                 showModalUserContent({errorType : WARNING_TITLE, errorText : WARNING_TEXT, backgroundColor : WARNING_BACKGROUND});
             } else {
                 recentSearches.add(searchValue);
+                localStorage.setItem('recentSearch_' + searchValue, searchValue);
                 renderRecentSearches();
                 renderItems(beers);
                 showElement(loadMoreDiv);
@@ -147,6 +181,7 @@ export function showModalFavourites() {
 }
 
 export function removeFavourites(itemClicked, target) {
+    localStorage.removeItem(itemClicked.name);
     Object.favourites["favourites"] =  Object.favourites["favourites"].filter(item => item.buttonAddRemoveId !== target.id);
     try {
         itemClicked.changeFavouriteStatus();
@@ -231,6 +266,7 @@ export function refactorAddButton(target, modalContent) {
 }
 
 export function addItemToFavourites(itemClicked) {
+    localStorage.setItem(itemClicked.name, itemClicked.name);
     itemClicked.changeFavouriteStatus();
     Object.favourites["favourites"].push(itemClicked);
     favouriteCounterDiv.innerHTML = `<p>${Object.favourites["favourites"].length}</p>`
