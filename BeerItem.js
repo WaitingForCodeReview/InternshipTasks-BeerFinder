@@ -8,7 +8,7 @@ export class BeerItem {
     constructor(beerData) {
         Object.assign(this, { ...beerData });
 
-        this.checkItemIsInFavourites() ? this.isFavourite = true : this.isFavourite = false;
+        this.isFavourite = this.checkItemIsInFavourites();
     }
 
     getInnerHtml() {

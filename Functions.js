@@ -155,8 +155,10 @@ export function removeFavourites(itemClicked, target) {
 }
 
 export function changeStyleRemoveFavourites(btnItem) {
-    document.getElementById(btnItem.id).style.background = BUTTON_ITEM_STYLES;
-    document.getElementById(btnItem.id).innerText = BUTTON_ADD_TEXT;
+    const elem = document.getElementById(btnItem.id);
+
+    elem.style.background = BUTTON_ITEM_STYLES;
+    elem.innerText = BUTTON_ADD_TEXT;
 }
 
 export function showModalItem(target) {
@@ -174,9 +176,7 @@ export function showModalItem(target) {
         const target = event.target;
         if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
             if (!itemClicked.isFavourite) {
-                itemClicked.changeFavouriteStatus();
-                Object.favourites["favourites"].push(itemClicked);
-                favouriteCounterDiv.innerHTML = `<p>${Object.favourites["favourites"].length}</p>`
+                addItemToFavourites(itemClicked);
                 refactorAddButton(target, modalContent);
             } else {
                 removeFavourites(itemClicked, target);
@@ -228,4 +228,10 @@ export function refactorAddButton(target, modalContent) {
     removeHtml(target, modalContent);
     changeRemove(target);
     addHtml(target, modalContent);
+}
+
+export function addItemToFavourites(itemClicked) {
+    itemClicked.changeFavouriteStatus();
+    Object.favourites["favourites"].push(itemClicked);
+    favouriteCounterDiv.innerHTML = `<p>${Object.favourites["favourites"].length}</p>`
 }

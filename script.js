@@ -1,6 +1,6 @@
 import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, favouritesButton} from "./Variables.js";
 import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites, showModalItem} from "./Functions.js";
-import {changeRemove} from "./Functions.js";
+import {changeRemove, addItemToFavourites} from "./Functions.js";
 
 let pageCounter = 1;
 
@@ -59,9 +59,7 @@ beerItemsElem.addEventListener('click', function addButtonClicked(event) {
         const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
 
         if (!itemClicked.isFavourite) {
-            itemClicked.changeFavouriteStatus();
-            Object.favourites["favourites"].push(itemClicked);
-            favouriteCounterDiv.innerHTML = `<p>${ Object.favourites["favourites"].length}</p>`;
+            addItemToFavourites(itemClicked);
             changeRemove(target);
         } else {
             removeFavourites(itemClicked, target);
