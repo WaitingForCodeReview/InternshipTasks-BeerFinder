@@ -37,6 +37,9 @@ header {
     padding-top: 1.4%;
     text-align: center;
 }
+.header-aside a {
+    cursor: pointer;
+}
 #favouritesCounter {
     position: absolute;
     border: 3px solid green;
@@ -151,7 +154,7 @@ a.buttonFavourites:active {
     text-align: center;
     padding: 10px;
 }
-.beer-items .itemCard {
+.beer-items .itemCard h2{
     cursor: pointer;
 }
 .beer-items .itemCard p, #modalContent .itemCard p {

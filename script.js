@@ -1,4 +1,4 @@
-import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, favouritesButton, BUTTON_ITEM_STYLES} from "./Variables.js";
+import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, favouritesButton} from "./Variables.js";
 import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites, showModalItem} from "./Functions.js";
 import {changeRemove} from "./Functions.js";
 
@@ -57,11 +57,11 @@ beerItemsElem.addEventListener('click', function addButtonClicked(event) {
 
     if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) { // if button clicked
         const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
+
         if (!itemClicked.isFavourite) {
             itemClicked.changeFavouriteStatus();
             Object.favourites["favourites"].push(itemClicked);
-            favouriteCounterDiv.innerHTML = `<p>${ Object.favourites["favourites"].length}</p>`
-
+            favouriteCounterDiv.innerHTML = `<p>${ Object.favourites["favourites"].length}</p>`;
             changeRemove(target);
         } else {
             removeFavourites(itemClicked, target);
@@ -72,7 +72,15 @@ beerItemsElem.addEventListener('click', function addButtonClicked(event) {
     }
 })
 
-
 favouritesButton.addEventListener('click', function favouritesClicked() {
     showModalFavourites();
+})
+
+document.addEventListener('keydown', function escPressed(event) {
+    if(event.code === 'Escape') {
+        try {
+            hideElement(document.getElementById('shadowModal'));
+            document.getElementById('modalContent').innerHTML = "";
+        } catch (e) { }
+    }
 })

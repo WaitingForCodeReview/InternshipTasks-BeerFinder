@@ -17,6 +17,11 @@ export const BUTTON_ITEM_STYLES = "rgb(255,212,3) linear-gradient(rgb(255,212,3)
 export const BUTTON_ADD_TEXT = 'Add';
 export const BUTTON_REMOVE_TEXT = 'Remove';
 export const BUTTON_REMOVE_BG = 'red';
+export const MODAL_INNER_HTML = `
+        <div id="crossrow"><img src="images/crossrow.svg" alt=""></div>
+        <div id="modalContent">
+        </div>
+    `
 export const favouritesButton = document.getElementById("btnFavourites");
 export const recentSearches = new Set();
 Object.foundBeers = {
