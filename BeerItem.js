@@ -1,16 +1,14 @@
-import {favourites} from "./script.js";
-
 export class BeerItem {
     name
     imageUrl
     description
     buttonAddRemoveId
+    titleId
 
     constructor(beerData) {
         Object.assign(this, { ...beerData });
 
-
-        this.checkItemIsInFavourites() ? this.isFavourite = true : this.isFavourite = false;
+        this.isFavourite = this.checkItemIsInFavourites();
     }
 
     getInnerHtml() {
@@ -23,7 +21,7 @@ export class BeerItem {
                         <img src=${this.imageUrl}>
                     </div>
                     <div>
-                        <p>${this.name}</p>
+                        <h2 id="${this.titleId}">${this.name}</h2>
                         <p>${this.description}</p>
                     </div>
             </div>
@@ -39,6 +37,6 @@ export class BeerItem {
     }
 
     checkItemIsInFavourites() {
-        return favourites.some( item => item.name === this.name);
+        return  Object.favourites["favourites"].some( item => item.name === this.name);
     }
 }

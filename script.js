@@ -1,8 +1,10 @@
-import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouriteCounterDiv, BUTTON_ITEM_STYLES} from "./Variables.js";
-import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull} from "./Functions.js";
+import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouritesButton} from "./Variables.js";
+import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites, showModalItem} from "./Functions.js";
+import {changeRemove, addItemToFavourites, initializeDefaultLocalStorage, isNeededTarget} from "./Functions.js";
 
 let pageCounter = 1;
-export let favourites = [];
+
+initializeDefaultLocalStorage();
 
 searchInput.addEventListener('keydown', function inputEnterPressed(event) {
     const searchValue = searchInput.value;
@@ -30,7 +32,7 @@ searchButton.addEventListener('click', function searchClicked() {
 recentSearchesDiv.addEventListener('click', function pClicked(event) {
     const target = event.target;
 
-    if(target.tagName === 'P') {
+    if (target.tagName === 'P') {
         searchInput.value = target.innerText;
         pageCounter = 1;
         initializeBeerFull(searchInput.value, pageCounter);
@@ -55,23 +57,30 @@ window.addEventListener('scroll', function scrolled() {
 beerItemsElem.addEventListener('click', function addButtonClicked(event) {
     const target = event.target;
 
-    if(target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
+    if (isNeededTarget(target)) { // if button clicked
         const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
-        if(!itemClicked.isFavourite) {
-            itemClicked.changeFavouriteStatus();
 
-            favourites.push(itemClicked);
-            favouriteCounterDiv.innerHTML = `<p>${favourites.length}</p>`
-
-            target.style.background = 'red';
-            target.innerText = 'Remove';
+        if (!itemClicked.isFavourite) {
+            addItemToFavourites(itemClicked);
+            changeRemove(target);
         } else {
-            favourites = favourites.filter(item => item.buttonAddRemoveId !== target.id);
-            itemClicked.changeFavouriteStatus();
-            favouriteCounterDiv.innerHTML = `<p>${favourites.length}</p>`
-
-            target.style.background = BUTTON_ITEM_STYLES;
-            target.innerText = 'Add';
+            removeFavourites(itemClicked, target);
+            changeStyleRemoveFavourites(target);
         }
+    } else if (target.nodeName === 'H2') {  // if item-title clicked
+        showModalItem(target);
+    }
+})
+
+favouritesButton.addEventListener('click', function favouritesClicked() {
+    showModalFavourites();
+})
+
+document.addEventListener('keydown', function escPressed(event) {
+    if(event.code === 'Escape') {
+        try {
+            hideElement(document.getElementById('shadowModal'));
+            document.getElementById('modalContent').innerHTML = "";
+        } catch (e) { }
     }
 })
