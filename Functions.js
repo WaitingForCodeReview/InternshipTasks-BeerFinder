@@ -199,14 +199,12 @@ export function showModalItem(target) {
 
     modalContent.addEventListener('click', function btnAddRemoveClicked(event) {
         const target = event.target;
-        if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) {
-            if (!itemClicked.isFavourite) {
-                addItemToFavourites(itemClicked);
-                refactorAddButton(target, modalContent);
-            } else {
+        if (isNeededTarget(target) && (!itemClicked.isFavourite)) {
+            addItemToFavourites(itemClicked);
+            refactorAddButton(target, modalContent);
+        } else if (isNeededTarget(target) && (itemClicked.isFavourite)){
                 removeFavourites(itemClicked, target);
                 refactorRemoveButton(target, modalContent);
-            }
         }
     })
 
@@ -264,4 +262,8 @@ export function addItemToFavourites(itemClicked) {
 
 export function addItemToFoundBeers(item) {
     Object.foundBeers['beerArray'].push(item);
+}
+
+export function isNeededTarget(target) {
+    return (target.classList.contains('addBtn') || target.classList.contains('removeBtn'));
 }

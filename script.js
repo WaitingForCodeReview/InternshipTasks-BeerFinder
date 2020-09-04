@@ -1,6 +1,6 @@
 import {searchInput, recentSearchesDiv, searchButton, loadMoreButton, arrowUp, beerItemsElem, favouritesButton} from "./Variables.js";
 import {isValidEnter, markAsInvalid, getItemsFetch, hideElement, showElement, initializeBeerFull, showModalFavourites, removeFavourites, changeStyleRemoveFavourites, showModalItem} from "./Functions.js";
-import {changeRemove, addItemToFavourites, initializeDefaultLocalStorage} from "./Functions.js";
+import {changeRemove, addItemToFavourites, initializeDefaultLocalStorage, isNeededTarget} from "./Functions.js";
 
 let pageCounter = 1;
 
@@ -57,7 +57,7 @@ window.addEventListener('scroll', function scrolled() {
 beerItemsElem.addEventListener('click', function addButtonClicked(event) {
     const target = event.target;
 
-    if (target.classList.contains('addBtn') || target.classList.contains('removeBtn')) { // if button clicked
+    if (isNeededTarget(target)) { // if button clicked
         const itemClicked = Object.foundBeers["beerArray"].find( item => item.buttonAddRemoveId === target.id);
 
         if (!itemClicked.isFavourite) {
