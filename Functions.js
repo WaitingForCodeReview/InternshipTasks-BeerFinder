@@ -85,6 +85,8 @@ export function renderElements(url, searchValue) {
                 renderRecentSearches();
                 renderItems(beers);
                 showElement(loadMoreDiv);
+                let countScroll = 200 + recentSearches.size * 30;
+                window.scrollTo(0, countScroll);
             }
         });
 }
