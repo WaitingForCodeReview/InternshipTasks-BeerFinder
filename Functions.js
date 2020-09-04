@@ -4,38 +4,27 @@ import {ERROR_BACKGROUND, ERROR_TEXT, ERROR_TITLE, WARNING_BACKGROUND, WARNING_T
 import {BUTTON_ADD_TEXT, BUTTON_REMOVE_BG, BUTTON_REMOVE_TEXT, MODAL_INNER_HTML} from "./Variables.js";
 
 export function initializeDefaultLocalStorage() {
-    for (let key in localStorage) {
-        if (localStorage.hasOwnProperty(key)) {
-            if (key.startsWith('recentSearch')) {
-                initializeLocalStRecentSearches(key);
-            } else {
-                initializeLocalStFavourites(key);
-            }
-        }
-    }
+    try {
+        JSON.parse(localStorage["recentSearches"]).forEach(item => initializeLocalStRecentSearches(item));
+        JSON.parse(localStorage["favourites"]).forEach(item => initializeLocalStFavourites(item));
+    } catch (e) { }
     renderRecentSearches();
 }
 
-export function initializeLocalStFavourites(key) {
-    fetch(`https://api.punkapi.com/v2/beers?beer_name=${key}`)
-        .then(response => response.json())
-        .then(beers => {
-            beers.forEach(item => {
-                const beerItem = new BeerItem({
-                    name: item.name,
-                    imageUrl: item.image_url,
-                    description: item.description,
-                    buttonAddRemoveId: `buttonAddRemoveId${BeerItem.convertId(item.name)}`,
-                    titleId: `titleId${BeerItem.convertId(item.name)}`,
-                });
-                addItemToFoundBeers(beerItem);
-                addItemToFavourites(beerItem);
-            });
-        })
+export function initializeLocalStFavourites(item) {
+    const beerInstance = parseToBeerInstance(item);
+    addItemToFoundBeers(beerInstance);
+    addItemToFavourites(beerInstance);
 }
 
-export function initializeLocalStRecentSearches(key) {
-    recentSearches.add(localStorage[key]);
+export function initializeLocalStRecentSearches(item) {
+    recentSearches.add(item);
+}
+
+export function parseToBeerInstance(toParse) {
+    return new BeerItem({
+        ...Object.assign({}, toParse)
+    });
 }
 
 export function isValidEnter(enter) {
@@ -92,7 +81,7 @@ export function renderElements(url, searchValue) {
                 showModalUserContent({errorType : WARNING_TITLE, errorText : WARNING_TEXT, backgroundColor : WARNING_BACKGROUND});
             } else {
                 recentSearches.add(searchValue);
-                localStorage.setItem('recentSearch_' + searchValue, searchValue);
+                localStorage.setItem("recentSearches", JSON.stringify(Array.from(recentSearches.values())));
                 renderRecentSearches();
                 renderItems(beers);
                 showElement(loadMoreDiv);
@@ -182,8 +171,8 @@ export function showModalFavourites() {
 }
 
 export function removeFavourites(itemClicked, target) {
-    localStorage.removeItem(itemClicked.name);
     Object.favourites["favourites"] =  Object.favourites["favourites"].filter(item => item.buttonAddRemoveId !== target.id);
+    localStorage.setItem("favourites", JSON.stringify(Object.favourites["favourites"]));
     try {
         itemClicked.changeFavouriteStatus();
     } catch (e) {}
@@ -267,9 +256,9 @@ export function refactorAddButton(target, modalContent) {
 }
 
 export function addItemToFavourites(itemClicked) {
-    localStorage.setItem(itemClicked.name, itemClicked.name);
     itemClicked.changeFavouriteStatus();
     Object.favourites["favourites"].push(itemClicked);
+    localStorage.setItem("favourites", JSON.stringify(Object.favourites["favourites"]));
     favouriteCounterDiv.innerHTML = `<p>${Object.favourites["favourites"].length}</p>`
 }
 
