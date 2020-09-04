@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Beer-Finder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f7f08c96e.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+
+<header>
+
+    <div class="header-title">
+        <h1>Beer Finder</h1>
+        <p>for true beer lovers...</p>
+    </div>
+
+    <div class="header-aside">
+        <a class="buttonFavourites" id="btnFavourites">Favourites</a>
+        <span id="favouritesCounter"><p>0</p></span>
+    </div>
+
+</header>
+
+<div id="shadowModal"></div>
+<div id="modalError">
+
+</div>
+
+<div class="input-div">
+
+    <input type="text" id="searchInput">
+    <i class="fas fa-search" id="searchButton"></i>
+
+</div>
+
+<div id="recentSearches"></div>
+
+<div class="beer-items" id="beerItems">
+
+</div>
+
+<div id="loadMoreDiv">
+    <a id="loadMoreButton">Load more</a>
+</div>
+
+<div id="arrowUp">
+    <a href="#"><img src="images/arrow.svg" alt="arrowUp"></a>
+</div>
+
+
+
+<script src="script.js" type="module"></script>
+
+<script>
+    $('#shadowModal').on('mouseenter', function (event) {
+        $("body").css("overflow","hidden");
+    }).on('mouseleave',  function(){
+        $("body").css("overflow","auto");
+    });
+</script>
+
+</body>
+</html>

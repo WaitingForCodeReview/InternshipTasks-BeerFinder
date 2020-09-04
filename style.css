@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: url("images/bg.jpg") no-repeat fixed center;
+    background-size: cover;
+}
+/* Header styles */
+header {
+    position: fixed;
+    top: 0;
+    display: flex;
+    height: 10%;
+    width: 100%;
+    background-color: rgba(173, 216, 230, 0.9);
+    z-index: 100;
+}
+.header-title {
+    width: 70%;
+    text-align: center;
+    font-size: 30px;
+    color: green;
+    font-family: 'Lobster', cursive;
+}
+
+.header-title h1 {
+    margin-left: 41.5%;
+}
+.header-title p{
+    margin-left: 41.5%;
+}
+
+.header-aside {
+    width: 30%;
+    padding-top: 1.4%;
+    text-align: center;
+}
+.header-aside a {
+    cursor: pointer;
+    width: 20%;
+    padding-right: 2%;
+}
+#favouritesCounter {
+    position: absolute;
+    border: 3px solid green;
+    border-radius: 50%;
+    left: 93%;
+    top: 35%;
+    padding: 3px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.fas {
+    cursor: pointer;
+    margin-left: 10%;
+}
+.input-div {
+    margin-top: calc(6.5% + 5px);
+    margin-left: 42%;
+    padding: 10px;
+    width: 320px;
+    height: 65px;
+    background-color: rgba(173, 216, 230, .85);
+    border-radius: 15px;
+}
+.input-div input {
+    padding: 10px;
+    font-size: 23px;
+    font-weight: bolder;
+    border: 7px solid rgba(255, 255, 255, .5);
+    background: rgba(173, 216, 230, .6);
+    outline: none;
+    color: #333;
+    width: 70%;
+}
+
+#recentSearches {
+    margin-top: 0.5%;
+    margin-left: 42%;
+    width: 10%;
+    text-align: center;
+}
+#recentSearches p {
+    margin: 7px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 15px;
+    font-size: 25px;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(173, 216, 230, .75);
+}
+
+a.buttonFavourites {
+    margin-left: 1rem;
+    margin-right: -6rem;
+    position: relative;
+    display: inline-block;
+    color: green;
+    font-weight: bold;
+    font-size: 25px;
+    text-decoration: none;
+    text-shadow: rgba(255,255,255,.5) 1px 1px, rgba(100,100,100,.3) 3px 7px 3px;
+    user-select: none;
+    padding: 0.5em 1em;
+    outline: none;
+    border-radius: 3px / 100%;
+    background-image:
+            linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%),
+            linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0) 20%, rgba(255,255,255,0) 90%, rgba(255,255,255,.3)),
+            linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+            linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+            linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5)),
+            linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5));
+    background-repeat: no-repeat;
+    background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
+    background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+    box-shadow: rgba(0,0,0,.5) 3px 10px 10px -10px;
+}
+a.buttonFavourites:hover {
+    transition: .5s linear;
+    background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+}
+a.buttonFavourites:active {
+    top: 1px;
+}
+/**/
+
+/*Styles for beer items div*/
+.beer-items, #modalContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0.3em;
+}
+#modalContent {
+    height: 100%;
+    width: 100%;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+#modalContent::-webkit-scrollbar {
+    display: none;
+}
+.beer-items .itemCard, #modalContent .itemCard{
+    width: 500px;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(173, 216, 230, .85);
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+}
+.beer-items .itemCard h2{
+    cursor: pointer;
+}
+.beer-items .itemCard p, #modalContent .itemCard p {
+    padding-top: 10px;
+    font-family: 'Lobster', cursive;
+    font-weight: bold;
+    font-size: 20px;
+}
+.beer-items .itemCard h2, #modalContent .itemCard h2 {
+    padding-top: 10px;
+    font-family: 'Lobster', cursive;
+    font-weight: bold;
+}
+.beer-items .addBtn, #modalContent .addBtn{
+    cursor: pointer;
+    display: inline-block;
+    color: black;
+    font-size: 23px;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .25em .5em;
+    outline: none;
+    border: 1px solid rgb(250,172,17);
+    border-radius: 7px;
+    background: rgb(255,212,3) linear-gradient(rgb(255,212,3), rgb(248,157,23));
+    box-shadow: inset 0 -2px 1px rgba(0,0,0,0), inset 0 1px 2px rgba(0,0,0,0), inset 0 0 0 60px rgba(255,255,0,0);
+    transition: box-shadow .2s, border-color .2s;
+}
+.beer-items a:hover, #modalContent a:hover {
+    box-shadow: inset 0 -1px 1px rgba(0,0,0,0), inset 0 1px 2px rgba(0,0,0,0), inset 0 0 0 60px rgba(255,255,0,.5);
+}
+.beer-items a:active, #modalContent a:active {
+    border-color: rgba(177,159,0,1);
+    box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), inset 0 1px 2px rgba(0,0,0,.3), inset 0 0 0 60px rgba(255,255,0,.45);
+}
+#itemBtnDiv {
+    position: relative;
+    top: 1%;
+    left: 40%;
+}
+
+.itemCard img {
+    width: 250px;
+    height: 550px;
+}
+
+#itemBtnDiv .removeBtn {
+    cursor: pointer;
+    display: inline-block;
+    color: black;
+    font-size: 23px;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .25em .5em;
+    outline: none;
+    border: 1px solid rgb(250,172,17);
+    border-radius: 7px;
+    background: red;
+    box-shadow: inset 0 -2px 1px rgba(0,0,0,0), inset 0 1px 2px rgba(0,0,0,0), inset 0 0 0 60px rgba(255,255,0,0);
+    transition: box-shadow .2s, border-color .2s;
+}
+
+#crossrow {
+    cursor: pointer;
+    position: fixed;
+    width: 88px;
+    height: 83px;
+    border: 3px solid green;
+    border-radius: 50%;
+    top: 5%;
+    left: 70%;
+    text-align: center;
+    align-items: center;
+    z-index: 1001;
+}
+#crossrow img {
+    width: 80px;
+    height: 80px;
+}
+/**/
+
+/*Styles for modal*/
+#shadowModal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 1000;
+}
+#modalError {
+    padding: 20px;
+    display: none;
+    text-align: center;
+    border-radius: 10px;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    color: black;
+    z-index: 9999999;
+}
+#modalError p {
+    font-size: 20px;
+    font-weight: bold;
+}
+/**/
+
+/*Styles for load more button*/
+#loadMoreDiv {
+    display: none;
+    text-align: center;
+    margin-top: 2.6rem;
+    margin-bottom: 2.6rem;
+}
+#loadMoreDiv a {
+    cursor: pointer;
+    font-weight: bold;
+    color: blue;
+    font-size: 20px;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    transition: 0.2s;
+}
+#loadMoreDiv a:hover { background: rgb(53, 167, 110); }
+#loadMoreDiv a:active {
+    background: rgb(33,147,90);
+    box-shadow: 0 3px rgb(33,147,90) inset;
+}
+/**/
+
+/*Styles for up-arrow*/
+#arrowUp {
+    display: none;
+    cursor: pointer;
+    position: fixed;
+    top: 89%;
+    left: 93%;
+    padding: 5px;
+    border: 5px solid green;
+    border-radius: 50%;
+}
+
+#arrowUp img {
+    width: 50px;
+    height: 46px;
+}
+/**/
